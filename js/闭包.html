@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 使用闭包创建私有方法
+        let a = (function () {
+            let number = 0;
+            function changeNum(value) {
+                number += value;
+            }
+            return {
+                increasement(value = 1) {
+                    changeNum(value);
+                },
+                decreasement(value = -1) {
+                    changeNum(value)
+                },
+                getnum() {
+                    return number;
+                }
+            }
+        })();
+
+        console.log(a.getnum()); // 0
+        a.increasement(1);
+        a.increasement(2);
+        a.decreasement(-4);
+        console.log(a.getnum());  // -1
+    </script>
+</body>
+
+</html>
