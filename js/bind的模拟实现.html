@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        Function.prototype.myBind = function (context) {
+            var self = this;
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            var fNOP = function () { };
+
+            var fBound = function () {
+                var bindArgs = Array.prototype.slice.call(arguments);
+                return self.apply(this instanceof fNOP ? this : context, args.concat(bindArgs));
+            }
+
+            fNOP.prototype = this.prototype;
+            fBound.prototype = new fNOP();
+            return fBound;
+        }
+
+        const bar = {
+            sex: 'bar'
+        }
+
+        function sayName(name, age) {
+            this.name = name;
+            this.age = age;
+            console.log(this.sex);
+        }
+
+        sayName.prototype.age = 12;
+
+        let fn = sayName.myBind(bar, 'zhangsan');
+        let zhangsan = new fn(23);
+
+        console.log(zhangsan);
+    </script>
+</body>
+
+</html>
